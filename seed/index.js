@@ -25,6 +25,7 @@ console.log(indianCities.length);
     const price = Math.floor(Math.random()*1000)+20;
 
     const camp = new Campground({
+      author:'69aefef01c50577a33817493',
       location: `${city.City}, ${city.State}`,
       title:`${sample(descriptors)} ${sample(places)}`,
      image: `https://picsum.photos/400?random=${Math.random()}`,
