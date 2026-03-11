@@ -7,26 +7,10 @@ const AsyncError=require('../utils/AsyncError');
 const {reviewSchema}=require('../schemas.js');
 const { validateReview , isLoggedIn,isReviewAuthor} = require('../middleware.js');
 
+const reviews=require('../controllers/reviews.js');
 
-router.post('/',isLoggedIn,validateReview,WrapAsync(async(req,res)=>{
-//    console.log(req.params);
-    const campground=await Campground.findById(req.params.id);
-    const review=new Review(req.body.review);
-    review.author=req.user._id;
-    campground.reviews.push(review);
-    await review.save();
-    await campground.save();
-            req.flash('success','Successfully added a new Review');
-    res.redirect(`/campgrounds/${campground._id}`);
-}))
+router.post('/',isLoggedIn,validateReview,WrapAsync(reviews.createReview))
 
-router.delete('/:reviewid',isLoggedIn,isReviewAuthor,WrapAsync(async(req,res)=>{
-    const {id,reviewid}=req.params;
-
-    await Campground.findByIdAndUpdate(id, {$pull: {reviews:reviewid}});
-    await Review.findByIdAndDelete(reviewid);
-                req.flash('success','Successfully Deleted Review');
-    res.redirect(`/campgrounds/${id}`);
-}))
+router.delete('/:reviewid',isLoggedIn,isReviewAuthor,WrapAsync(reviews.deleteReviews))
 
 module.exports=router;
