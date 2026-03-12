@@ -1,3 +1,7 @@
+if(process.env.NODE_ENV !=="production"){
+    require('dotenv').config();
+}
+
 const express = require('express');
 const mongoose = require('mongoose');
 const app =express();
@@ -16,7 +20,8 @@ const campgroundRoutes=require('./routes/campgrounds.js');
 const reviewRoutes=require('./routes/reviews.js');
 const userRoutes=require('./routes/user.js');
 
-mongoose.connect('mongodb://127.0.0.1:27017/yelp-camp')
+const dbUrl = process.env.DB_URL;
+mongoose.connect(dbUrl)
 .then(()=>{
     console.log("connection open!!");
 })

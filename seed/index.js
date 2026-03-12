@@ -28,12 +28,15 @@ console.log(indianCities.length);
       author:'69aefef01c50577a33817493',
       location: `${city.City}, ${city.State}`,
       title:`${sample(descriptors)} ${sample(places)}`,
-     image: `https://picsum.photos/400?random=${Math.random()}`,
+  
       description:'Lorem ipsum dolor sit amet consectetur adipisicing elit. Possimus, quod rem sint expedita assumenda dolor voluptatibus eaque accusantium excepturi necessitatibus ex eveniet! Quis quisquam nostrum, nesciunt rerum voluptates soluta nulla!',
-      price
-    })
-
-
+      price,
+      images:[
+        { 
+      url: 'https://res.cloudinary.com/dql1qulne/image/upload/v1773333267/YelpCamp/kbzowqurknfssrtf1z3c.jpg',
+      filename: 'YelpCamp/yxsnuiosgvt7qtssm3wa'
+    }]
+  })
     await camp.save();
   }
 };
