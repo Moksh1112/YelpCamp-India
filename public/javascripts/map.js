@@ -1,4 +1,5 @@
 const mapDiv = document.getElementById('map');
+const cluster = L.markerClusterGroup();
 
 if (mapDiv) {
 
@@ -12,11 +13,17 @@ if (mapDiv) {
     if (!camp.geometry || !camp.geometry.coordinates) return;
         const coords = camp.geometry.coordinates;
     if (!coords[0] || !coords[1]) return;
-        L.marker([coords[1], coords[0]])
-            .addTo(map)
-            .bindPopup(camp.title);
-
+   const marker = L.marker([coords[1], coords[0]])
+    .bindPopup(`
+        <strong>
+            <a href="/campgrounds/${camp._id}">
+                ${camp.title}
+            </a>
+        </strong>
+    `);
+  cluster.addLayer(marker);
 });
+map.addLayer(cluster);
 
     }
 }

@@ -1,13 +1,16 @@
 <% layout('layouts/boilerplate')%>
-<link rel="stylesheet" href="/stylesheets/map.css">
-    <h1>All Campgrounds</h1>
+
+ <div class="mb-4">
+    <div id="map" class="rounded shadow" style="height:600px;"></div>
+ </div>
+
+<script>
+    const campgrounds = <%- JSON.stringify(campgrounds) %>;
+</script>
+   <h1>All Campgrounds</h1>
     <div>
         <a href="/campgrounds/new">Add Campground</a>
     </div>
- <div id="map" style="height:400px;"></div>
-   <script>
-const campgrounds = <%- JSON.stringify(campgrounds) %>;
-</script>
     <% for(let campground of campgrounds){%>
        <div class="card mb-3">
         <div class="row">
