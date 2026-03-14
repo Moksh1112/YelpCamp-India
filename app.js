@@ -2,9 +2,13 @@ if(process.env.NODE_ENV !=="production"){
     require('dotenv').config();
 }
 
+const sanitizeV5 = require('./utils/mongoSanitizeV5.js');
+const helmet=require('helmet');
+
 const express = require('express');
 const mongoose = require('mongoose');
 const app =express();
+app.set('query parser', 'extended');
 const path= require('path');
 const AsyncError=require('./utils/AsyncError');
 const methodOverride=require('method-override');
@@ -37,8 +41,57 @@ app.use(methodOverride('_method'));
 app.use(express.urlencoded({extended:true}));
 app.use(express.static(path.join(__dirname,'public')));
 
+const scriptSrcUrls = [
+    "https://stackpath.bootstrapcdn.com/",
+    "https://cdnjs.cloudflare.com/",
+    "https://cdn.jsdelivr.net",
+    "https://unpkg.com/"
+];
+
+const styleSrcUrls = [
+    "https://stackpath.bootstrapcdn.com/",
+    "https://cdnjs.cloudflare.com/",
+    "https://cdn.jsdelivr.net",
+    "https://unpkg.com/",
+    "https://fonts.googleapis.com/"
+];
+
+const connectSrcUrls = [
+    "https://tile.openstreetmap.org/"
+];
+
+const imgSrcUrls = [
+    "https://tile.openstreetmap.org/",
+    "https://*.tile.openstreetmap.org/",
+    "https://res.cloudinary.com/",
+    "https://images.unsplash.com/"
+];
+
+app.use(sanitizeV5({ replaceWith: '_' }));
+app.use(helmet());
+app.use(
+    helmet.contentSecurityPolicy({
+        directives: {
+            defaultSrc: ["'self'"],
+            connectSrc: ["'self'", ...connectSrcUrls],
+            scriptSrc: ["'unsafe-inline'", "'self'", ...scriptSrcUrls],
+            styleSrc: ["'self'", "'unsafe-inline'", ...styleSrcUrls],
+            imgSrc: [
+                "'self'",
+                "blob:",
+                "data:",
+                ...imgSrcUrls
+            ],
+            fontSrc: ["'self'", "https://fonts.gstatic.com"],
+            objectSrc: [],
+            upgradeInsecureRequests: []
+        }
+    })
+);
+const secretSess= process.env.SESSION;
 const sessionConfig={
-    secret:'thisshouldbeabettersecret!',
+    name:'session',
+    secret:secretSess,
     resave:false,
     saveUninitialized:true,
    cookie:{

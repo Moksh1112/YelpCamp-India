@@ -16,6 +16,31 @@ mongoose.connect('mongodb://127.0.0.1:27017/yelp-camp')
 
 const sample=array=>array[Math.floor(Math.random()*array.length)];
 
+
+const images = [
+{
+  url: 'https://res.cloudinary.com/dql1qulne/image/upload/v1773335277/YelpCamp/v7d6x3i2jom5hnk6x6eq.jpg',
+  filename: 'YelpCamp/v7d6x3i2jom5hnk6x6eq'
+},
+{
+  url: 'https://res.cloudinary.com/dql1qulne/image/upload/v1773335274/YelpCamp/exyhu4uydaa8alw5ntfk.jpg',
+  filename: 'YelpCamp/exyhu4uydaa8alw5ntfk'
+},
+{
+  url: 'https://res.cloudinary.com/dql1qulne/image/upload/v1773335202/YelpCamp/qfkpfsmrizuywpm0j5fi.jpg',
+  filename: 'YelpCamp/qfkpfsmrizuywpm0j5fi'
+},
+{
+  url: 'https://res.cloudinary.com/dql1qulne/image/upload/v1773335199/YelpCamp/yzzsjfob5s4aprukwnsb.jpg',
+  filename: 'YelpCamp/yzzsjfob5s4aprukwnsb'
+},
+{
+  url: 'https://res.cloudinary.com/dql1qulne/image/upload/v1773324192/YelpCamp/ypeqdw609bts2ovzyeys.jpg',
+  filename: 'YelpCamp/ypeqdw609bts2ovzyeys'
+}
+];
+
+
 const seedDB = async () => {
   await Campground.deleteMany({});
 console.log(indianCities.length);
@@ -34,11 +59,7 @@ console.log(indianCities.length);
   },
       description:'Lorem ipsum dolor sit amet consectetur adipisicing elit. Possimus, quod rem sint expedita assumenda dolor voluptatibus eaque accusantium excepturi necessitatibus ex eveniet! Quis quisquam nostrum, nesciunt rerum voluptates soluta nulla!',
       price,
-      images:[
-        { 
-      url: 'https://res.cloudinary.com/dql1qulne/image/upload/v1773333267/YelpCamp/kbzowqurknfssrtf1z3c.jpg',
-      filename: 'YelpCamp/yxsnuiosgvt7qtssm3wa'
-    }]
+       images: [sample(images), sample(images)]
   })
     await camp.save();
   }
